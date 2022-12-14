@@ -443,6 +443,72 @@ def Make_Timesheet():
         workbook.save(filename=Timecard_Folder + "Timesheet_" + DATE + ".xlsx")
 
 
+def Run_Email(Password):
+        global Super
+        global PM
+        global Job
+        global Daily_Report
+        global Timecard
+        global use
+
+        Job = DailyReport_info[0]
+
+        # Find Super
+        if 'Dave' in DailyReport_info[1]:
+                Super = 'Dave@*******'
+
+        if 'Ray' in DailyReport_info[1]:
+                Super = 'Ray@*****'
+        
+        # Find PM
+        if 'Mike' in DailyReport_info[1]:
+                Pm = 'Mikes@*******'
+
+        if 'Kyle' in DailyReport_info[1]:
+                Pm = 'Kyle*********'
+
+        if 'Wesley' in DailyReport_info[1]:
+                Pm = 'Wesley@*****'
+        
+        if 'Ramon' in DailyReport_info[1]:
+                Pm = 'Ramon**********'
+
+            #    Find Latest files for Daily Report
+        list_of_files = glob.glob(Daily_Report_Folder + '*')
+        Daily_Report = max(list_of_files, key=os.path.getctime)
+             #   Find Latest files for TimeSheet
+        list_of_files = glob.glob(Timecard_Folder + '*')
+        Timecard = max(list_of_files, key=os.path.getctime)
+
+
+        # Check OS and lauch Daily Report
+#        if platform == "linux" or platform == "linux2":
+                
+                
+        subprocess.Popen(["xdg-open", Daily_Report]) #_Folder + "Daily_Report_" + DATE + ".xlsx"])
+        subprocess.Popen(["xdg-open", Timecard]) #_Folder + "Timesheet_" + DATE + ".xlsx"])
+
+        print(Daily_Report)
+        print(' ')
+        use = input("Use internal email system?(y,n) ")
+        print(" ")
+        print(" ")
+        Job = DailyReport_info[0]
+        Email_Timesheet(User_Name, Password, Super, Pm, Job)
+        Email_Daily_report(User_Name, Password, Super, Pm, Job)
+        # linux
+
+#        elif platform == "win32":
+#
+#                subprocess.call([Daily_Report]) #_Folder + "Daily_Report_" + DATE + ".xlsx"])
+#                subprocess.call([Timecard]) #_Folder + "Bryan_Timesheet_" + DATE + ".xlsx"])
+#
+#                print(" ")
+#                Email_Daily_report(User_Name, Password, Super, Pm, Job)
+#                Email_Timesheet(User_Name, Password, Super, Pm, Job)
+                # Windows...
+
+
 def Email_Timesheet(User_Name, Password, Super, Pm, Job):
         global use
         
@@ -534,71 +600,6 @@ def Email_Daily_report(User_Name, Password, Super, Pm, Job):
                         print(" ")
                         print(" ")
                     
-
-def Run_Email(Password):
-        global Super
-        global PM
-        global Job
-        global Daily_Report
-        global Timecard
-        global use
-
-        Job = DailyReport_info[0]
-
-        # Find Super
-        if 'Dave' in DailyReport_info[1]:
-                Super = 'Dave@*******'
-
-        if 'Ray' in DailyReport_info[1]:
-                Super = 'Ray@*****'
-        
-        # Find PM
-        if 'Mike' in DailyReport_info[1]:
-                Pm = 'Mikes@*******'
-
-        if 'Kyle' in DailyReport_info[1]:
-                Pm = 'Kyle*********'
-
-        if 'Wesley' in DailyReport_info[1]:
-                Pm = 'Wesley@*****'
-        
-        if 'Ramon' in DailyReport_info[1]:
-                Pm = 'Ramon**********'
-
-            #    Find Latest files for Daily Report
-        list_of_files = glob.glob(Daily_Report_Folder + '*')
-        Daily_Report = max(list_of_files, key=os.path.getctime)
-             #   Find Latest files for TimeSheet
-        list_of_files = glob.glob(Timecard_Folder + '*')
-        Timecard = max(list_of_files, key=os.path.getctime)
-
-
-        # Check OS and lauch Daily Report
-#        if platform == "linux" or platform == "linux2":
-                
-                
-        subprocess.Popen(["xdg-open", Daily_Report]) #_Folder + "Daily_Report_" + DATE + ".xlsx"])
-        subprocess.Popen(["xdg-open", Timecard]) #_Folder + "Bryan_Timesheet_" + DATE + ".xlsx"])
-
-        print(Daily_Report)
-        print(' ')
-        use = input("Use internal email system?(y,n) ")
-        print(" ")
-        print(" ")
-        Job = DailyReport_info[0]
-        Email_Timesheet(User_Name, Password, Super, Pm, Job)
-        Email_Daily_report(User_Name, Password, Super, Pm, Job)
-        # linux
-
-#        elif platform == "win32":
-#
-#                subprocess.call([Daily_Report]) #_Folder + "Daily_Report_" + DATE + ".xlsx"])
-#                subprocess.call([Timecard]) #_Folder + "Bryan_Timesheet_" + DATE + ".xlsx"])
-#
-#                print(" ")
-#                Email_Daily_report(User_Name, Password, Super, Pm, Job)
-#                Email_Timesheet(User_Name, Password, Super, Pm, Job)
-                # Windows...
 
 def Remove_Data():
         print("  Purging outdated data...")
